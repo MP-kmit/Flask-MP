@@ -1,0 +1,71 @@
+{% extends "homeBase.html" %} {% block title %}{% endblock %} {% block
+  content %}
+  <!-- <style>
+    canvas{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);               
+  }
+
+    #test{
+      position: absolute;
+      top: 75%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #test2{
+      position: absolute;
+      top: 90%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    #test3{
+      position: absolute;
+      top: 90%;
+      left: 40%;
+      transform: translate(-50%, -50%);
+    }
+
+    #btn{
+      position: absolute;
+      top: 90%;
+      left: 80%;
+      transform: translate(-50%, -50%);
+    }
+    
+  </style> -->
+  <div></div>  
+  <div>
+      <canvas
+        id="canvas"
+        width="500"
+        height="200"
+        style="border: 1px solid black;"
+      ></canvas>
+    </div>
+    <div id="test">
+      <span>Size: </span>
+      <input
+        type="range"
+        min="1"
+        max="50"
+        value="10"
+        class="size"
+        id="sizeRange"
+      />
+    </div>
+    <div id="test2">
+      <button id="clear" >Clear</button>
+    </div>
+    <br />
+    <div id="test3">
+      <input id="upload" type="file" accept="image/*" />
+    </div>
+    <script type="text/javascript" src="{{ url_for('views.static',filename='script/script.js') }}"> 
+    </script>
+    <button id="btn" onclick="DownloadCanvasAsImage()">Download</button>
+
+    {% endblock %}
