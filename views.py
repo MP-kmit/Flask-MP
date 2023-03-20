@@ -55,6 +55,11 @@ def upload_image():
  
     return render_template('upload.html', filenames=file_names)
 
+@views.route("/something" , methods=['GET'])
+def SomeFunction():
+    print('In SomeFunction')
+    return render_template("result.html")
+
 @views.route('/display/<filename>')
 def display_image(filename):
     #print('display_image filename: ' + filename)
@@ -67,3 +72,5 @@ def gallery():
     imageList = os.listdir('env/static/uploads')
     imagelist = ['uploads/' + image for image in imageList]
     return render_template("gallery.html", imagelist=imagelist)
+
+

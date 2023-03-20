@@ -1,0 +1,185 @@
+{% extends "homeBase.html" %} {% block title %}{% endblock %} {% block
+    content %}
+
+    <style>
+      .glow-on-hover {
+          width: 220px;
+          height: 50px;
+          border: none;
+          outline: none;
+          color: #fff;
+          background: #111;
+          cursor: pointer;
+          position: relative;
+          z-index: 0;
+          border-radius: 10px;
+      }
+
+      .glow-on-hover:before {
+          content: '';
+          background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+          position: absolute;
+          top: -2px;
+          left:-2px;
+          background-size: 400%;
+          z-index: -1;
+          filter: blur(5px);
+          width: calc(100% + 4px);
+          height: calc(100% + 4px);
+          animation: glowing 20s linear infinite;
+          opacity: 0;
+          transition: opacity .3s ease-in-out;
+          border-radius: 10px;
+      }
+
+      .glow-on-hover:active {
+          color: #000
+      }
+
+      .glow-on-hover:active:after {
+          background: transparent;
+      }
+
+      .glow-on-hover:hover:before {
+          opacity: 1;
+      }
+
+      .glow-on-hover:after {
+          z-index: -1;
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          background: #111;
+          left: 0;
+          top: 0;
+          border-radius: 10px;
+      }
+
+      @keyframes glowing {
+          0% { background-position: 0 0; }
+          50% { background-position: 400% 0; }
+          100% { background-position: 0 0; }
+      }
+
+
+    #mybutton{
+      position: absolute;
+      size: 100px;
+      top: 50%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+    }
+
+
+    .ball {
+  position: absolute;
+  border-radius: 100%;
+  opacity: 0.7;
+}  
+
+    #x2{
+      position: absolute;
+      size: 100px;
+      top: 50%;
+      left: 40%;
+      transform: translate(-50%, -50%);
+    }
+
+    #x3{
+      position: absolute;
+      size: 100px;
+      top: 50%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+    }
+
+  </style>  
+
+<script type="text/javascript">
+  // Some random colors
+const colors = ["#3CC157", "#2AA7FF", "#1B1B1B", "#FCBC0F", "#F85F36"];
+
+const numBalls = 50;
+const balls = [];
+
+for (let i = 0; i < numBalls; i++) {
+  let ball = document.createElement("div");
+  ball.classList.add("ball");
+  ball.style.background = colors[Math.floor(Math.random() * colors.length)];
+  ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
+  ball.style.top = `${Math.floor(Math.random() * 100)}vh`;
+  ball.style.transform = `scale(${Math.random()})`;
+  ball.style.width = `${Math.random()}em`;
+  ball.style.height = ball.style.width;
+  
+  balls.push(ball);
+  document.body.append(ball);
+}
+
+// Keyframes
+balls.forEach((el, i, ra) => {
+  let to = {
+    x: Math.random() * (i % 2 === 0 ? -11 : 11),
+    y: Math.random() * 12
+  };
+
+  let anim = el.animate(
+    [
+      { transform: "translate(0, 0)" },
+      { transform: `translate(${to.x}rem, ${to.y}rem)` }
+    ],
+    {
+      duration: (Math.random() + 1) * 2000, // random duration
+      direction: "alternate",
+      fill: "both",
+      iterations: Infinity,
+      easing: "ease-in-out"
+    }
+  );
+});
+</script>
+    
+  <div style="padding:20px;">
+    <h2 id="x1">Please upload picture first followed by its mask!</h2>
+  
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <dl>
+            <p id="x2">
+                <input class="glow-on-hover" type="file" name="files[]" multiple="true" autocomplete="off" required>
+            </p>
+        </dl>
+        <p id="x3">
+            <input class="glow-on-hover" type="submit" value="Submit">
+        </p>
+    </form>
+
+     
+    {% if filenames %}
+        {% for filename in filenames %}
+            <div style="padding:20px;float:left;">
+                <img width="500" src="{{ url_for('views.display_image', filename=filename) }}"> 
+            </div>
+        {% endfor %}
+
+        <script>
+          var a=document.getElementById("x1");
+          var b=document.getElementById("x2");
+          var c=document.getElementById("x3");
+          
+          a.style.display="none";
+          b.style.display="none";
+          c.style.display="none";
+
+        </script>
+
+        <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"> </script>
+        <script type=text/javascript> $(function() { $("#mybutton").click(function (event) { $.getJSON('/SomeFunction', { },
+        function(data) { }); return false; }); }); </script>  -->
+
+        <form method="get" action="/something">
+          <button id="mybutton" type="submit" class="glow-on-hover">Start Process!</button>
+        </form>  
+        {% endif %}
+
+  {% endblock %}
